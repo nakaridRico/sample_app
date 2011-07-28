@@ -15,5 +15,6 @@ describe PagesController do
       response.should be_success
     end
   end
+  
 
 end
