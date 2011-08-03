@@ -94,30 +94,71 @@ describe User do
       User.new(@attr.merge(:password_confirmation => "invalid")).
       should_not be_valid
     end
-    
+
     it "should reject short passwords" do
       short = "a" * 5
       hash = @attr.merge(:password => short, :password_confirmation => short)
       User.new(hash).should_not be_valid
     end
-    
+
     it "should reject long passwords" do
       long = "a" * 41
       hash = @attr.merge(:password => long, :password_confirmation => long)
       User.new(hash).should_not be_valid
     end
   end
-  
+
   describe "password encryption" do
-    
+
     before  (:each) do
       @user = User.create!(@attr)
     end
-    
+
     it "should have an encrypted password attribute" do
       @user.should respond_to(:encrypted_password)
     end
-    
+
+    it "should set encrypted password attribute" do
+      @user.encrypted_password.should_not be_blank
+    end
+
+    it "should have a salt" do
+      @user.should respond_to(:salt)
+    end
+
+    describe "has_password? method" do
+
+      it "should exist" do
+        @user.should respond_to(:has_password?)      
+      end
+
+      it "should return true if the password match" do
+        @user.has_password?(@attr[:password]).should be_true
+      end
+
+      it "should return false if the password don't match" do
+        @user.has_password?("invalid").should be_false
+      end
+    end
+
+    describe "authenticate method" do
+
+      it "does something" do
+        User.should respond_to(:authenticate) 
+      end
+
+      it "should return nil on email/password mismatch" do
+        User.authenticate(@attr[:email], "wrongpass").should be_nil
+      end
+
+      it "should return nil for an email address with no user" do
+        User.authenticate("bar@foo.com", @attr[:password]).should be_nil
+      end
+
+      # it "should return the user on email/password match" do
+      #         User.authenticate(@attr[:email], @attr[:password]).should == @user
+      #       end
+    end
   end
 end
 
