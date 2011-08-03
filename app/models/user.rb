@@ -1,7 +1,19 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                 :integer         not null, primary key
+#  name               :string(255)
+#  email              :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  encrypted_password :string(255)
+#
+
 require 'digest'
 class User < ActiveRecord::Base
   attr_accessor   :password, :password_confirmation, :salt
-  attr_accessible :name, :email, :password, :password_confirmation, :salt
+  attr_accessible :name, :email, :password, :password_confirmation
 
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -57,17 +69,7 @@ class User < ActiveRecord::Base
   end
 end
 
-# == Schema Information
-#
-# Table name: users
-#
-#  id                 :integer         not null, primary key
-#  name               :string(255)
-#  email              :string(255)
-#  created_at         :datetime
-#  updated_at         :datetime
-#  encrypted_password :string(255)
-#
+
 
 
 
