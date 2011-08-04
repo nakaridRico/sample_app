@@ -155,12 +155,13 @@ describe User do
         User.authenticate("bar@foo.com", @attr[:password]).should be_nil
       end
 
-      # it "should return the user on email/password match" do
-      #         User.authenticate(@attr[:email], @attr[:password]).should == @user
-      #       end
+      it "should return the user on email/password match" do
+               User.authenticate(@attr[:email], @attr[:password]).should == @user
+             end
     end
   end
 end
+
 
 
 
@@ -174,5 +175,6 @@ end
 #  created_at         :datetime
 #  updated_at         :datetime
 #  encrypted_password :string(255)
+#  salt               :string(255)
 #
 
